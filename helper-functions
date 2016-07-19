@@ -1,6 +1,7 @@
 <?php
 
 
+#may be a better version of var_dump/print/print_r
 function prettyPrint($data, $exit = true) {
     
 
