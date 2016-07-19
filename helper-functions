@@ -24,3 +24,22 @@ function prettyPrint($data, $exit = true) {
 
 
 }
+
+
+/**
+ * 
+ * @param type $obj
+ * @param type $prop
+ * @return type
+ * 
+ * access protected object/properties
+ */
+function getProtectedProp($obj, $prop) {
+
+    $reflection = new ReflectionClass($obj);
+    $property = $reflection->getProperty($prop);
+    $property->setAccessible(true);
+    return $property->getValue($obj);
+
+
+}
