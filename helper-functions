@@ -43,3 +43,52 @@ function getProtectedProp($obj, $prop) {
 
 
 }
+
+
+#manage duplicate email with codeigniter for mandrillAPI/mailChimp
+function manage_duplicate_mail($info, $type) {
+
+    $statusArr = [];
+    $emailArray = [];
+    $recipients = [];
+    $toArray = [];
+    $toArray2 = [];
+    $recipients2 = [];
+
+    foreach ($info['to'] as $index => $inf) {
+
+        //taking value with unique email
+        if (!in_array($inf['email'], $emailArray)) {
+            array_push($recipients, $info['info'][$index]);
+            array_push($toArray, $inf);
+            array_push($emailArray, $inf['email']);
+        }
+        //separating value with duplicate email
+        else {
+            array_push($recipients2, $info['info'][$index]);
+            array_push($toArray2, $inf);
+        }
+    }
+
+    unset($info['info']);
+    unset($info['to']);
+
+    $info2 = $info;
+    $info2['info'] = $recipients2;
+    $info2['to'] = $toArray2;
+
+    $info['info'] = $recipients;
+    $info['to'] = $toArray;
+
+    $status = send_mail($info, $type);
+    #$statusArr[] = $status === false ? '0' : '1';
+    $statusArr[] = $status;
+
+    //calling same function again untill duplicacy is gone
+    if (!empty($recipients2)) {
+        manage_duplicate_mail($info2, $type);
+    }
+    return $statusArr;
+
+
+}
