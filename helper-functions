@@ -1,0 +1,25 @@
+<?php
+
+
+function prettyPrint($data, $exit = true) {
+    
+
+    if (gettype($data) == 'string')
+        echo '<strong>' . strlen($data) . '</strong> characters of ';
+    else
+        echo '<strong>' . count($data) . '</strong> elements of ';
+    
+    
+    echo '<strong>' . gettype($data) . '</strong>';
+    
+
+    echo '<br><pre>"';
+    print_r($data);
+    echo '"</pre>';
+    
+
+    if ($exit !== false)
+        exit;
+
+
+}
